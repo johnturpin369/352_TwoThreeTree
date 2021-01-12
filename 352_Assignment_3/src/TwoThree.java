@@ -1,36 +1,47 @@
-import java.io.LineNumberReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class TwoThree {
 
-	public static void main(String[] args) {
+	private static TwoThreeTree tree = null;
 	
-		FileReader file;
+	public static void main(String[] args) {
+
+		String file = System.getProperty("user.dir") + "\\" + args[0];
+		String line = null;
+		boolean treeExists = false;
+		
 		try {
+			FileReader fileReader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			
-			file = new FileReader(args[0]);
-			LineNumberReader readLines = new LineNumberReader(file);
-			
-			for(int i = 0; i < Integer.parseInt(args[1]); i++) {
-				
-				
-				
-				// read lines from file to give to tree
-				// something like: Integer.parseInt(readLines.readLine());
+			while((line = bufferedReader.readLine()) != null) {
+				if(line.charAt(0) == 'a' && !treeExists) {
+					tree = new TwoThreeTree(Integer.parseInt(line.substring(1, line.length())));
+					TwoThreeTree.numAddOperations++;
+					treeExists = true;
+				}
+				else if(line.charAt(0) == 'a') {
+					TwoThreeTree.numAddOperations++;
+					tree.Insert(Integer.parseInt(line.substring(1, line.length())));
+					tree.curr = tree.root;
+				}
+				else if(line.charAt(0) == 'f') {
+					TwoThreeTree.numFindOperations++;
+					tree.Find(Integer.parseInt(line.substring(1,  line.length())));
+				}
 			}
 			
-			TwoThreeTree tree = new TwoThreeTree(12);
-			
-			if(tree.Find(21) == null) {
-				System.out.println("Value was not found in tree");
-			}
-			
-		} catch (FileNotFoundException e) {
-			
-			e.printStackTrace();
+			tree.DisplayStatistics();
+			System.out.print("Pre-order traversal after step " + args[1] + ": ");
+			Tree.Traversal(tree.root, Integer.parseInt(args[1]));
+			bufferedReader.close();
 		}
-
+		catch(FileNotFoundException ex) {
+			System.out.println("File: \"" + file + "\" not found");
+			ex.printStackTrace();
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+		}
 	}
-
 }

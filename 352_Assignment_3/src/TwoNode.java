@@ -1,17 +1,13 @@
 
 public class TwoNode extends Node {
-	
-	private int key;
-	private Node leftChild;
-	private Node rightChild;
-	
-	public TwoNode(int key) {
-		this.key = key;
+		
+	public TwoNode(int key, Node parent) {
+		this.key1 = key;
+		this.parent = parent;
 	}
 	
-	// kind of weird i know
 	public int[] GetKey() {
-		int[] arr = {key};
+		int[] arr = {key1};
 		
 		return arr;
 	}
@@ -20,23 +16,23 @@ public class TwoNode extends Node {
 		return (leftChild == null && rightChild == null);
 	}
 	
-	public boolean IsLessThan(int val) {
-		return val < key;
+	public boolean NewValIsLessThanKeys(int val) {
+		return val < key1;
 	}
 	
-	public boolean IsGreaterThan(int val) {
-		return val > key;
+	public boolean NewValIsGreaterThanKeys(int val) {
+		return val > key1;
 	}
 	
-	public boolean IsEqualTo(int val) {
-		return val == key;
-	}
-	
-	public boolean IsBetween(int val) {
+	public boolean NewValIsBetweenKeys(int val) {
 		return false;
 	}
 	
 	public boolean IsThreeNode() {
 		return false;
+	}
+	
+	public boolean IsLeftChild() {
+		return this.key1 < this.parent.key1;
 	}
 }
